@@ -61,7 +61,7 @@ The datasets were obtained from Kaggle. Python Libraries will be used on these d
 * **Data Cleaning:** 
     * Missing Values: Rows with missing values in relevant columns will be removed.
     * Inconsistent Formatting: Any inconsistencies in data formatting will be addressed through standardization.
-     * Irrelevant Columns: In the crime dataset, only total crime counts and corresponding years are retained. Other detailed columns are excluded for simplicity in national-level aggregation.
+     * All relevant columns, including violent crime breakdowns (murder, rape, robbery, etc.), are retained for deeper analysis and future modeling, however states columns will be disregarded.
 * **Data Transformation:**
     * Aggregation: Both the unemployment and crime datasets are grouped by year to create national-level annual summaries.
         - The unemployment dataset is averaged per year.
@@ -135,6 +135,7 @@ This trend analysis will provide context for the hypothesis testing and guide fu
 * Matplotlib
 * Seaborn (Optional)
 * scikit-learn
+* scipy
 
 **Timeline:**
 
