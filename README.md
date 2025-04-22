@@ -61,12 +61,12 @@ The datasets were obtained from Kaggle. Python Libraries will be used on these d
 * **Data Cleaning:** 
     * Missing Values: Rows with missing values in relevant columns will be removed.
     * Inconsistent Formatting: Any inconsistencies in data formatting will be addressed through standardization.
-     * All relevant columns, including violent crime breakdowns (murder, rape, robbery, etc.), are retained for deeper analysis and future modeling, however states columns will be disregarded.
+     * All relevant columns, including violent crime breakdowns (murder, rape, robbery, etc.), are retained for deeper analysis and future modeling, however states columns will be disregarded. (for the EDA part and hypothesis testing) As state level type of murder could be an option for my machine model.
 * **Data Transformation:**
     * Aggregation: Both the unemployment and crime datasets are grouped by year to create national-level annual summaries.
         - The unemployment dataset is averaged per year.
         - The crime dataset is summed across all states per year.
-    * Column Renaming: Final columns are standardized to `Year`, `UnemploymentRate`, and `CrimeCount` for clarity.
+    * Column Renaming: Final columns are standardized to `Year`, `UnemploymentRate`, and `CrimeCount` and each murder type for clarity.
     * Type Checking: All numeric columns are verified and cast as appropriate numeric types.
 * **Data Integration:** 
     The two datasets are merged using the `Year` column as the key. This produces a single, unified dataset suitable for time-series analysis, hypothesis testing, and future machine learning tasks.
