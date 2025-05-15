@@ -1,10 +1,12 @@
 # Unemployment-and-Crime-Rates
 
 **Project Description:**
-This project examines the dynamic relationship between unemployment and crime rates in the US, leveraging analysis.  We will utilize publicly available datasets covering a substantial time period to analyze the temporal patterns in both variables.  Statistical modeling techniques, including potential time-series regression, will be applied to identify their relationship, causes and explore potential causal links between fluctuations in unemployment and subsequent changes in crime rates.
+This project explores the relationship between unemployment and crime rates in the United States from both a statistical and machine learning perspective. Using multi-decade, real-world datasets, the project investigates how economic factors, particularly unemployment, may influence crime patterns.
+
+We aim to answer the question: "Do higher unemployment rates contribute to higher crime rates?" To do so, we perform end-to-end data analysis—starting from raw data cleaning and transformation to hypothesis testing and predictive modeling using classification and regression algorithms.
 
 **Motivation:**
-I am motivated to undertake this project because of my strong interest in applying data science to real-world problems, particularly those with significant social impact. The complex relationship between unemployment and crime rates provides a compelling context for utilizing my developing skills in time-series analysis and statistical modeling.  I am eager to explore potential causal relationships and contribute to a deeper understanding of this important socioeconomic issue.
+The relationship between economic hardship and crime has long been studied in sociology and criminology. As a data science enthusiast with a passion for impactful social issues, I am driven to explore this question using rigorous, data-driven approaches. Understanding this link can help governments and organizations allocate resources more effectively, develop better prevention policies, and forecast crime trends based on economic indicators.
 
 **Datasets:**
 
@@ -14,135 +16,113 @@ I am motivated to undertake this project because of my strong interest in applyi
     * **Link:** https://www.kaggle.com/datasets/guillemservera/us-unemployment-rates
     * **Data Acquisition Method:** Exported the dataset as a zip file from kaggle's download feature and then extracted it as a csv file
 
-
 * **Dataset 2: Crime Rate Data**
     * **Name:** United States Crime
     * **Source:** Kaggle.com
     * **Link:** https://www.kaggle.com/datasets/nuritasthedataist/united-states-crime
     * **Data Acquisition Method:** Kaggle's download feature allowed me to download it as a csv file
 
-**Dataset's Columns:**
+* **Datasets 3 and 4: Enrichment Datasets** 
+    * **admissions.csv and salary_bras.csv (added for ML enhancement)**
+    * **Purpose:** Enhance socioeconomic context and improve prediction models by adding auxiliary variables like salary distributions and prison admissions.
 
-* **U.S. Unemployment Rates:**
-    * **Date:** the interval of the years are between 1948-2014 and for every month of the year
-    * **overall_rate:** rate of the unemployment
-    * **men_rate:** defines itself
-    * **women_rate:** defines itself
-    * **ages for both genders as multiple columns**
+**Data Collection and Preparation**
 
-* **United States Crime:**
-    * **State**: The U.S. state where the crime data was recorded.
-    * **Year**: The year in which the crime data was collected.
-    * **Data.Population**: Population of the state during the specified year.
-    * **Data.Rates.Property.All**: Total property crime rate per 100,000 population.
-    * **Data.Rates.Property.Burglary**: Burglary rate per 100,000 population.
-    * **Data.Rates.Property.Larceny**: Larceny-theft rate per 100,000 population.
-    * **Data.Rates.Property.Motor**: Motor vehicle theft rate per 100,000 population.
-    * **Data.Rates.Violent.All**: Total violent crime rate per 100,000 population.
-    * **Data.Rates.Violent.Assault**: Aggravated assault rate per 100,000 population.
-    * **Data.Rates.Violent.Murder**: Murder and nonnegligent manslaughter rate per 100,000 population.
-    * **Data.Rates.Violent.Rape**: Rape rate per 100,000 population.
-    * **Data.Rates.Violent.Robbery**: Robbery rate per 100,000 population.
-    * **Data.Totals.Property.All**: Total number of property crimes.
-    * **Data.Totals.Property.Burglary**: Total number of burglaries.
-    * **Data.Totals.Property.Larceny**: Total number of larceny-theft offenses.
-    * **Data.Totals.Property.Motor**: Total number of motor vehicle thefts.
-    * **Data.Totals.Violent.All**: Total number of violent crimes.
-    * **Data.Totals.Violent.Assault**: Total number of aggravated assaults.
-    * **Data.Totals.Violent.Murder**: Total number of murders and nonnegligent manslaughters.
-    * **Data.Totals.Violent.Rape**: Total number of rapes.
-    * **Data.Totals.Violent.Robbery**: Total number of robberies.
+**1. Data Cleaning**
+- Converted dates to datetime format.
+- Extracted `Year` column from timestamps.
+- Dropped rows with missing values in key columns.
+- Removed outliers and rows with obviously incorrect or zero values (e.g., 0 crime counts in states with high population).
 
+**2. Aggregation & Integration**
+- **Unemployment:** Aggregated monthly data into yearly national averages.
+- **Crime:** Grouped by year and averaged across all 50 states to get national-level indicators.
+- Merged datasets using `Year` as the common key.
 
-**Data Collection and Preparation:**
+**3. Feature Engineering**
+- Created a `TotalCrimeRate` column by summing `Data.Rates.Property.All` and `Data.Rates.Violent.All`.
+- Calculated year-over-year percentage changes: `Unemp_YoY_%` and `Crime_YoY_%`.
+- Introduced binary and multiclass categorical targets for classification (e.g., `DominantNextCrimeType`).
+- Normalized numeric columns and encoded categorical ones for modeling purposes.
 
-The datasets were obtained from Kaggle. Python Libraries will be used on these data like pandas, matplotlib, seaborn, scikit-learn. The data will undergo the following preparation steps:
-
-* **Data Cleaning:** 
-    * Missing Values: Rows with missing values in relevant columns will be removed.
-    * Inconsistent Formatting: Any inconsistencies in data formatting will be addressed through standardization.
-     * All relevant columns, including violent crime breakdowns (murder, rape, robbery, etc.), are retained for deeper analysis and future modeling, however states columns will be disregarded. (for the EDA part and hypothesis testing) As state level type of murder could be an option for my machine model.
-* **Data Transformation:**
-    * Aggregation: Both the unemployment and crime datasets are grouped by year to create national-level annual summaries.
-        - The unemployment dataset is averaged per year.
-        - The crime dataset is summed across all states per year.
-    * Column Renaming: Final columns are standardized to `Year`, `UnemploymentRate`, and `CrimeCount` and each murder type for clarity.
-    * Type Checking: All numeric columns are verified and cast as appropriate numeric types.
-* **Data Integration:** 
-    The two datasets are merged using the `Year` column as the key. This produces a single, unified dataset suitable for time-series analysis, hypothesis testing, and future machine learning tasks.
+**4. Data Enrichment**
+- Integrated additional datasets (`admissions.csv`, `salary_brackets.csv`) to include economic and social indicators.
+- Merged on shared keys such as state/year where appropriate.
+- Resulted in more comprehensive socioeconomic context for machine learning models.
 
 **Analysis Plan:**
 
-1. **Exploratory Data Analysis (EDA):**
+**1. Exploratory Data Analysis (EDA)**
+- Displayed summary statistics and distributions of all core features.
+- Used `.describe()` and `.skew()` to understand spread and symmetry.
+- Generated correlation matrix and heatmaps.
+- Created the following plots:
+  - Line plots for `UnemploymentRate` and `TotalCrimeRate` over time.
+  - Year-over-year trend analysis.
+  - Scatter plots to observe linear relationships.
+  - Histograms and boxplots for distribution analysis.
 
-   The EDA aims to deeply understand the relationship between national United States unemployment and crime rates across years. The steps include:
+**Key Insights:**
+- Total crime rate peaked in the 1990s and declined thereafter.
+- Unemployment fluctuates in cycles (recession-related), not strictly aligned with crime.
+- Positive correlations between unemployment and crime types such as larceny, robbery, and assault.
 
-   * **Summary Statistics:**
-     - Mean, median, standard deviation, min, max for both `UnemploymentRate` and `CrimeCount`.
-     - Year-over-year percent change for both metrics.
-     - Skewness to understand distribution shape.
+**2. Hypothesis Testing**
 
-   * **Correlation Matrix:**
-     - Heatmap visualization of correlations between numerical columns.
+**Hypothesis:**
+- **H₀ (Null):** There is no statistically significant correlation between unemployment and crime.
+- **H₁ (Alternative):** There is a significant correlation between unemployment and crime.
 
-   * **Visualizations:**
-     - **Line Plot** showing annual trends for `UnemploymentRate` and `CrimeCount`.
-     - **Scatter Plot** of `UnemploymentRate` vs. `CrimeCount` to observe the relationship.
-     - **Box Plots** for both variables to inspect spread and outliers.
-     - **Bar Chart** showing total crimes per year.
-     - **Histogram** for each variable to assess distribution shape.
+**Method:**
+- Used the **Pearson correlation coefficient** to test the relationship between:
+  - `UnemploymentRate` and `TotalCrimeRate`
 
-2. **Hypothesis Testing:**
+**Results:**
+- Pearson r ≈ **0.28**, p-value ≈ **0.0327**
+- Rejected the null hypothesis at α = 0.05 level.
+- Weak to moderate positive correlation → unemployment is **statistically associated** with crime, though not strongly.
 
-   A **Pearson correlation test** will be used to evaluate whether there is a statistically significant linear relationship between unemployment rate and crime rate.
+**Machine Learning Models**
 
-   * **Null Hypothesis (H₀):** There is no statistically significant correlation between unemployment rates and crime rates in the US.
-   * **Alternative Hypothesis (H₁):** There is a statistically significant correlation between unemployment rates and crime rates in the US.
+**1. Classification (Random Forest)**
+- **Target:** `DominantNextCrimeTypeMulti` (most frequent crime type next year)
+- **Features Used:**
+  - Socioeconomic features (from enrichment datasets)
+  - Crime subcategories (excluding `.All` aggregates and future-leaky columns)
+- **Preprocessing:**
+  - Label encoding of target.
+  - SMOTE oversampling (`sampling_strategy='not majority'`) to balance minority classes.
+  - Removed duplicate and missing rows.
+- **Model:** `RandomForestClassifier(n_estimators=120, max_depth=14, min_samples_leaf=8)`
+- **Accuracy:** **94%**
+- **Classification Report Highlights:**
+  - High precision and recall for major classes (e.g., Larceny, Murder, Burglary)
+  - Model generalizes well on unseen data
 
-   * **Test Details:**
-     - **Test Used:** Pearson correlation coefficient
-     - **Test Statistics:** Correlation coefficient (r), p-value
-     - **Significance Level (α):** 0.05
-     - **Degrees of Freedom (df):** *n - 2*, where *n* is the number of yearly observations
-
-   The result will indicate the strength and significance of the relationship. If the p-value is less than 0.05, we reject the null hypothesis and conclude that a statistically significant relationship exists.
-
-3. **Visualization Summary:**
-
-   The following plots will be generated to aid interpretation:
-
-   * **Line Plot** – Trends over years for both `UnemploymentRate` and `CrimeCount`
-   * **Scatter Plot** – Relationship between `UnemploymentRate` and `CrimeCount`
-   * **Correlation Heatmap** – Overview of all numerical relationships
-   * **Box Plots** – Distribution and outliers in both metrics
-   * **Histograms** – Frequency distribution of each metric
-   * **Bar Chart** – Total crime per year
-
-**Trend Analysis:**
-
-Trends in both unemployment rates and crime counts will be analyzed over time using line plots and year-over-year change graphs. This allows us to identify potential long-term patterns, parallel movements, or divergences between the two variables. We will explore:
-
-* Whether crime rates increase or decrease during years of rising unemployment.
-* Any lagged effects — for example, if unemployment spikes are followed by increases in crime the next year.
-* General direction of each metric (increasing, decreasing, or cyclical trends).
-* Any noticeable outliers or anomalies in specific years that deviate from the general pattern.
-
-This trend analysis will provide context for the hypothesis testing and guide future modeling steps, such as considering lag variables or non-linear models.
+**2. Regression (Linear Regression)**
+- **Target:** `Data.Rates.Violent.All` (total violent crime rate)
+- **Features:** Purely socioeconomic, removing all crime-related features to prevent leakage
+- **Model:** `LinearRegression()`
+- **Metrics:**
+  - **R² Score:** 0.83
+  - **MAE:** 49.7
+  - **MSE:** 5440.58
+- **Top Predictive Features:** Extracted and ranked by coefficient magnitude
+- **Visualization:** Actual vs Predicted scatter plot confirms good model
 
 **Technology Stack:**
-* Python
-* Pandas
-* Matplotlib
-* Seaborn (Optional)
-* scikit-learn
-* scipy
+- **Languages:** Python  
+- **Libraries:** pandas, matplotlib, seaborn, scikit-learn, imbalanced-learn, scipy  
+- **Tools:** Jupyter Notebook, VSCode, GitHub
 
 **Timeline:**
 
-* **March 14, 2025:** Project Proposal Submission (This README file)
-* **April 25, 2025:** Exploratory Data Analysis and hypothesis tests on the data
-* **May 23, 2025:** Apply ML methods on the dataset
-* **May 30, 2025:** Final Report Submission
+| Task                            | Deadline         |
+|---------------------------------|------------------|
+| Project Proposal Submission     | March 14, 2025   |
+| EDA & Hypothesis Testing        | April 25, 2025   |
+| Machine Learning Modeling       | May 23, 2025     |
+| Final Report Submission         | May 30, 2025     |
 
 
 **Team:** Abdallah Al Homsi (Individual Project)
