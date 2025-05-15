@@ -110,6 +110,19 @@ The relationship between economic hardship and crime has long been studied in so
 - **Top Predictive Features:** Extracted and ranked by coefficient magnitude
 - **Visualization:** Actual vs Predicted scatter plot confirms good model
 
+**Limitations and Future Work**
+
+**Limitations**
+- Correlation does not imply causation; other factors may influence crime.
+- Aggregating state data into national averages may hide local trends.
+- Data inconsistencies in some years (e.g., 2016) may affect reliability.
+- Models do not account for time-lag effects or deep temporal patterns.
+
+**Future Work**
+- Explore regional analysis
+- Add more features (e.g., education, income inequality) to improve predictions.
+- Use causal inference methods to better understand relationships.
+
 **Technology Stack:**
 - **Languages:** Python  
 - **Libraries:** pandas, matplotlib, seaborn, scikit-learn, imbalanced-learn, scipy  
