@@ -113,9 +113,7 @@ The relationship between economic hardship and crime has long been studied in so
 ## **Limitations and Future Work**
 
 ### **Limitations**
-- Correlation does not imply causation; other factors may influence crime.
 - Aggregating state data into national averages may hide local trends.
-- Data inconsistencies in some years (e.g., 2016) may affect reliability.
 - Models do not account for time-lag effects or deep temporal patterns.
 
 ### **Future Work**
